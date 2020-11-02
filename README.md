@@ -7,7 +7,7 @@ https://github.com/jeanpat/DeepFISH/blob/master/dataset/LowRes_13434_overlapping
 再利用xx.py对数据集进行预处理，生成128×128尺寸的数据集  
 
 ## 2.训练  
-打开 `trainModel.py`  
+打开 `trainModel.py`   
 修改数据集路径  
 —————————————— Load data ————————————————————————————  
 ```
@@ -50,7 +50,7 @@ for i in range(num_epoch):
 ```
 
 ## 3.预测
-打开predict.py
+打开`predict.py`  
 修改权重路径  
 —————————————— Pretrained model ———————————————————————
 ```
@@ -60,7 +60,7 @@ Name = './h5/MACSNet_1.h5'
 model.load_weights(Name)   
 ```
 
-预测单张图片  
+预测单张图片中重叠部分的IoU  
 —————————————— predict single img ———————————————————————  
 ```
 ix = 250    
