@@ -2,10 +2,34 @@
 MACS Net: Overlapping chromosome segmentation based on multi-scale U-shaped network
 
 ## 1.数据集的制作
-采用Kaggle网站中```https://www.kaggle.com/jeanpat/overlapping-chromosomes/data```  
+数据集来源：```https://www.kaggle.com/jeanpat/overlapping-chromosomes/data```  
 由Pommier JP制作的重叠染色体数据集```LowRes_13434_overlapping_pairs.h5```  
 该原始数据集的尺寸为```93×94```  
-再利用```processInputimg.py```将尺寸填充成```128×128```  
+打开```processInputimg.py```将尺寸填充成```128×128```  
+打开```data_noise.py```生成加噪数据集  
+```
+#------------------------------ data_sp ------------------------------#  
+data2 = np.zeros(shape=(13434,128,128,1))
+for i in range(13434):
+    print(i)
+    data2[i,:,:,:] = sp_noise(data[i,:,:,:],0.01)    # 修改椒盐噪声强度
+np.save('xdata_128x128_sp_0.01.npy',data2)
+#------------------------------ data_gaussian ------------------------------#  
+data2 = np.zeros(shape=(13434,128,128,1))
+data = data/255
+for i in range(13434):
+    print(i)
+    img_noise=skimage.util.random_noise(data[i,:,:,0], mode='gaussian', seed=None, var=(1/255.0)**2) #修改高斯噪声强度
+    data2[i,:,:,0]=img_noise*255 
+np.save('xdata_128x128_gaussian_1.npy',data2)
+#------------------------------ data_poisson ------------------------------# 
+data2 = np.zeros(shape=(13434,128,128,1))
+for i in range(13434):
+    print(i)
+    img_noise=skimage.util.random_noise(data[i,:,:,0], mode='poisson', seed=None,clip=True) #poisson噪声强度由像素值覆盖范围确定
+    data2[i,:,:,0]= img_noise
+np.save('xdata_128x128_poisson.npy',data2)
+```
 
 ## 2.训练  
 打开 `trainModel.py`   
