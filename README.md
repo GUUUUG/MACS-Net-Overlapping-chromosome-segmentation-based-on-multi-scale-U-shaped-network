@@ -2,9 +2,10 @@
 MACS Net: Overlapping chromosome segmentation based on multi-scale U-shaped network
 
 ## 1.数据集的制作
-采用Kaggle网站中由Jeanpat制作的重叠染色体数据集，其链接为  
-https://github.com/jeanpat/DeepFISH/blob/master/dataset/LowRes_13434_overlapping_pairs.h5  
-再利用xx.py对数据集进行预处理，生成128×128尺寸的数据集  
+采用Kaggle网站中```https://www.kaggle.com/jeanpat/overlapping-chromosomes/data```  
+由Pommier JP制作的重叠染色体数据集```LowRes_13434_overlapping_pairs.h5```  
+该原始数据集的尺寸为```93×94```  
+再利用```processInputimg.py```将尺寸填充成```128×128```  
 
 ## 2.训练  
 打开 `trainModel.py`   
