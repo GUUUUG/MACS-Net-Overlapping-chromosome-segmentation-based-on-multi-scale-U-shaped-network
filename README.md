@@ -49,3 +49,57 @@ for i in range(num_epoch):
     history = model.fit(x, y, epochs=300, validation_split=0.2, batch_size=32, callbacks=[check_point, callback]) #修改迭代次数
 ```
 
+## 3.预测
+打开predict.py
+修改权重路径
+—————————————— Pretrained model ———————————————————————
+```
+Name = './h5/MACSNet_1.h5'                                      
+#Name = './h5/CENet_1.h5'
+#Name = './h5/UNet_1.h5'  
+model.load_weights(Name)   
+```
+
+预测单张图片
+—————————————— predict single img ———————————————————————
+```
+ix = 250    
+img = x_test[ix,:,:,0].reshape(1,128,128,1)
+label = y_test[ix,:,:,3]
+
+img_pred = model.predict(img).round()
+plt.xticks(())
+plt.yticks(())
+plt.imshow(x_test[ix,:,:,0])
+plt.savefig('./img.png')
+plt.imshow(label)
+plt.savefig('./label.png')
+plt.show()
+plt.imshow(img_pred[0,:,:,3])
+plt.savefig('./pred.png')
+plt.show()
+testIOU = utilities.IOU(img_pred, y_test[ix,:,:,:].reshape(1,128,128,4))  # 计算重叠部分的IoU
+print('Testing IOU: ' + str(testIOU))
+```
+计算测试集中重叠部分的IoU
+—————————————— predict iou ——————————————————————————
+```
+y_pred_test = model.predict(x_test).round()
+testIOU = utilities.IOU(y_pred_test, y_test)
+print('Testing IOU: ' + str(testIOU))
+```
+
+计算测试集中分割出的独立染色体的IoU
+—————————————— predict chrom iou ———————————————————————
+```
+y_pred_test = model.predict(x_test).round()
+testIOU = utilities.IOU_One(y_pred_test, y_test)
+print('Testing Chrom IOU: ' + str(testIOU))
+```
+计算测试集中分割出的独立染色体的Acc
+—————————————— predict Accuracy ———————————————————————
+```
+y_pred_test = model.predict(x_test).round()
+testIOU = utilities.global_chrom_Accuracy(y_pred_test, y_test)
+print('Testing Chrom Acc: ' + str(testIOU))
+```
