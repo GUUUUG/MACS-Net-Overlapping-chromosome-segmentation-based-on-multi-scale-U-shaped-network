@@ -14,7 +14,7 @@ https://github.com/jeanpat/DeepFISH/blob/master/dataset/LowRes_13434_overlapping
 xdata = np.load('./data/xdata_128x128.npy')  
 labels = np.load('./data/ydata_128x128_0123_onehot.npy')  
 ```  
-修改数据集划分文件的路径
+修改数据集划分文件的路径  
 —————————————— Load the class of data ——————————————————————  
 ```
 number = 1      # 选择五折交叉验证中哪一折
@@ -23,16 +23,16 @@ a=a.tolist()
 b=np.load('./data_cls_new/'+str(number)+'/data_cls_1.npy')                 
 b=b.tolist()
 ```
-修改预训练模型的路径
-—————————————— Pretrained model ———————————————————————
+修改预训练模型的路径  
+—————————————— Pretrained model ———————————————————————  
 ```
 Name = './h5/MACSNet_1.h5'                                      
 #Name = './h5/CENet_1.h5'
 #Name = './h5/UNet_1.h5'
 ```
 
-修改存储模型的路径
-—————————————— Temporary model ————————————————————————
+修改存储模型的路径  
+—————————————— Temporary model ————————————————————————  
 ```
 Name_tem = './MACSNet_'+str(number)+'.h5'  
 ```
@@ -51,7 +51,7 @@ for i in range(num_epoch):
 
 ## 3.预测
 打开predict.py
-修改权重路径
+修改权重路径  
 —————————————— Pretrained model ———————————————————————
 ```
 Name = './h5/MACSNet_1.h5'                                      
@@ -60,8 +60,8 @@ Name = './h5/MACSNet_1.h5'
 model.load_weights(Name)   
 ```
 
-预测单张图片
-—————————————— predict single img ———————————————————————
+预测单张图片  
+—————————————— predict single img ———————————————————————  
 ```
 ix = 250    
 img = x_test[ix,:,:,0].reshape(1,128,128,1)
@@ -81,23 +81,23 @@ plt.show()
 testIOU = utilities.IOU(img_pred, y_test[ix,:,:,:].reshape(1,128,128,4))  # 计算重叠部分的IoU
 print('Testing IOU: ' + str(testIOU))
 ```
-计算测试集中重叠部分的IoU
-—————————————— predict iou ——————————————————————————
+计算测试集中重叠部分的IoU  
+—————————————— predict iou ——————————————————————————  
 ```
 y_pred_test = model.predict(x_test).round()
 testIOU = utilities.IOU(y_pred_test, y_test)
 print('Testing IOU: ' + str(testIOU))
 ```
 
-计算测试集中分割出的独立染色体的IoU
-—————————————— predict chrom iou ———————————————————————
+计算测试集中分割出的独立染色体的IoU  
+—————————————— predict chrom iou ———————————————————————  
 ```
 y_pred_test = model.predict(x_test).round()
 testIOU = utilities.IOU_One(y_pred_test, y_test)
 print('Testing Chrom IOU: ' + str(testIOU))
 ```
-计算测试集中分割出的独立染色体的Acc
-—————————————— predict Accuracy ———————————————————————
+计算测试集中分割出的独立染色体的Acc  
+—————————————— predict Accuracy ———————————————————————  
 ```
 y_pred_test = model.predict(x_test).round()
 testIOU = utilities.global_chrom_Accuracy(y_pred_test, y_test)
